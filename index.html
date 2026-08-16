@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>MOM&CHILD - ตรวจสอบที่อยู่จัดส่ง</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" href="https://i.ibb.co/2YStypZh/image.png">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Kanit', sans-serif; 
+            margin: 0; 
+            background-color: #fdfbfb;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Canvas Animation Background */
+        #water-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none; 
+        }
+        
+        /* Glassmorphism Card */
+        .glass-container {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 182, 193, 0.4);
+            border-radius: 24px;
+            box-shadow: 0 15px 35px 0 rgba(255, 107, 139, 0.15), 0 5px 15px 0 rgba(26, 32, 68, 0.05);
+            overflow: hidden;
+        }
+
+        /* Header ไล่สีชมพูอ่อน-ขาว */
+        .brand-header {
+            background: linear-gradient(180deg, #fff0f3 0%, rgba(255,255,255,0) 100%);
+        }
+
+        .blur-zone { filter: blur(10px); opacity: 0.4; pointer-events: none; user-select: none; }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        .animate-scale { animation: scaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+
+        /* --- Modal Styles ปรับแต่งสำหรับมือถือ --- */
+        .modal-card { 
+            background: white; 
+            width: 92%; 
+            max-width: 420px; 
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 24px; 
+            padding: 24px;
+            text-align: center; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15); 
+            position: relative; 
+            -ms-overflow-style: none;  
+            scrollbar-width: none;  
+        }
+        .modal-card::-webkit-scrollbar { display: none; }
+        
+        @media (min-width: 640px) {
+            .modal-card { padding: 32px; border-radius: 28px; }
+            .glass-container { border-radius: 28px; }
+        }
+
+        .close-btn { position: absolute; right: 16px; top: 16px; color: #a0aec0; font-size: 28px; cursor: pointer; border: none; background: none; z-index: 10; transition: color 0.2s; padding: 4px; }
+        .close-btn:hover { color: #4a5568; }
+        
+        .modal-header-red { background: linear-gradient(90deg, #ff6b8b, #f43f5e); height: 8px; width: 100%; position: absolute; top: 0; left: 0; }
+        .modal-header-green { background: linear-gradient(90deg, #34d399, #10b981); height: 8px; width: 100%; position: absolute; top: 0; left: 0; }
+        
+        /* Custom Colors */
+        .text-navy { color: #1a2044; }
+        .text-gold { color: #c89f45; }
+        .bg-pink-gradient { background: linear-gradient(135deg, #ff7eb3 0%, #ff758c 100%); }
+        .bg-pink-gradient:hover, .bg-pink-gradient:active { background: linear-gradient(135deg, #ff758c 0%, #ff6b8b 100%); }
+    </style>
+</head>
+<body class="min-h-[100dvh] flex flex-col relative">
+
+    <canvas id="water-canvas"></canvas>
+
+    <!-- Navbar -->
+    <nav class="w-full bg-white/70 backdrop-blur-md border-b border-pink-100 p-3 flex justify-between items-center z-[100] px-5 md:px-8 h-[70px] sticky top-0 shadow-sm">
+        <div class="flex items-center gap-3">
+            <img src="https://i.ibb.co/2YStypZh/image.png" alt="Logo" class="w-auto h-11 object-contain drop-shadow-sm">
+            <span class="text-navy font-bold text-[17px] md:text-xl tracking-wide hidden sm:block">MOM & CHILD</span>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex items-center justify-center p-4 py-6">
+        <div class="w-full max-w-[420px] animate-scale">
+            <div class="glass-container flex flex-col w-full">
+                
+                <!-- Card Header -->
+                <div class="brand-header pt-8 pb-5 px-6 text-center relative">
+                    <!-- ปรับขนาดโลโก้ให้เท่าของเดิม พร้อมใส่กรอบวงกลมสีขาว -->
+                    <div class="mx-auto w-24 h-24 sm:w-28 sm:h-28 bg-white rounded-full shadow-md flex items-center justify-center p-2 mb-4 relative z-10 transition-transform hover:scale-105 duration-500">
+                        <img src="https://i.ibb.co/2YStypZh/image.png" alt="MOM & CHILD MARKETPLACE Logo" class="w-full h-full object-contain">
+                    </div>
+                    
+                    <h1 class="text-xl sm:text-2xl font-bold text-navy drop-shadow-sm relative z-10 leading-tight">ระบบตรวจสอบร้านค้า</h1>
+                    <p class="text-[14px] sm:text-[15px] text-gold font-medium mt-1 relative z-10">MOM & CHILD MARKETPLACE</p>
+                </div>
+
+                <!-- Card Body -->
+                <div class="px-6 sm:px-8 pb-10 pt-2">
+                    <div class="mb-5">
+                        <label class="block text-[13px] sm:text-sm font-semibold text-navy mb-2 ml-1">ชื่อร้านค้า (Shop Name)</label>
+                        <div class="flex items-center bg-white rounded-2xl px-4 py-1.5 shadow-inner border border-pink-100 focus-within:ring-2 focus-within:ring-pink-300 focus-within:border-pink-300 transition-all">
+                            <span class="text-pink-400 mr-2 text-xl">🛍️</span>
+                            <input id="shopInput" type="text" placeholder="พิมพ์ชื่อร้านค้าที่ต้องการค้นหา..." class="w-full bg-transparent py-3 text-[15px] sm:text-[16px] outline-none text-slate-700 placeholder-slate-300">
+                        </div>
+                    </div>
+
+                    <button onclick="checkShop()" class="w-full bg-pink-gradient text-white font-bold py-4 rounded-2xl shadow-[0_8px_20px_rgba(255,117,140,0.3)] text-[16px] sm:text-[17px] transition-all transform hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2">
+                        <span>🔍</span> ตรวจสอบที่อยู่จัดส่ง
+                    </button>
+                    
+                    <div class="flex items-center justify-center gap-2 text-[12px] sm:text-[13px] text-slate-400 mt-6 font-medium">
+                        <span class="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse shadow-[0_0_8px_#4ade80]"></span>
+                        เชื่อมต่อฐานข้อมูลเรียลไทม์ 24 ชม.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal: Not Found -->
+    <div id="notFoundOverlay" class="fixed inset-0 bg-navy/50 backdrop-blur-sm hidden items-center justify-center z-[110] p-4">
+        <div class="modal-card animate-scale">
+            <div class="modal-header-red"></div>
+            <div class="w-16 h-16 sm:w-20 sm:h-20 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl sm:text-4xl shadow-inner">🥺</div>
+            <h3 class="text-xl sm:text-2xl font-bold text-navy mb-2">ไม่พบข้อมูล</h3>
+            <p class="text-[14px] sm:text-md text-slate-500 leading-relaxed mb-6 sm:mb-8">ขออภัย ไม่พบชื่อร้านค้านี้ในระบบ<br>กรุณาตรวจสอบการสะกดและลองใหม่อีกครั้ง</p>
+            <button onclick="hideAll()" class="w-full bg-slate-100 text-slate-700 font-bold py-3.5 sm:py-4 rounded-2xl hover:bg-slate-200 transition-colors active:scale-95">ลองใหม่อีกครั้ง</button>
+        </div>
+    </div>
+
+    <!-- Modal: Fail / Not Verified -->
+    <div id="failOverlay" class="fixed inset-0 bg-navy/60 backdrop-blur-sm hidden items-center justify-center z-[150] p-4">
+        <div class="modal-card animate-scale">
+            <div class="modal-header-red"></div>
+            <button onclick="hideAll()" class="close-btn">&times;</button>
+            <div class="w-16 h-16 sm:w-20 sm:h-20 bg-rose-50 text-rose-400 rounded-full flex justify-center items-center mx-auto mb-4 text-3xl sm:text-4xl font-bold shadow-inner">!</div>
+            <h2 class="text-xl sm:text-2xl font-bold text-navy mb-2">สถานะ: ยังไม่ยืนยัน</h2>
+            <p class="text-[13px] sm:text-sm text-slate-500 mb-6 leading-relaxed">
+                ร้านค้า <span id="fShop" class="font-bold text-pink-500 text-[15px] sm:text-base break-words"></span><br>
+                <span class="font-semibold text-slate-700">"ยังไม่ได้ทำการยืนยันบัญชี"</span><br>
+                <span class="text-[12px] sm:text-[13px] text-slate-400 mt-1 block">กรุณาติดต่อผู้ดูแลระบบเพื่อดำเนินการยืนยัน</span>
+            </p>
+            <button onclick="window.open('')" class="w-full bg-[#00B900] text-white font-bold py-3.5 sm:py-4 rounded-xl sm:rounded-2xl shadow-lg hover:bg-[#009900] transition-colors mb-3 flex items-center justify-center gap-2 active:scale-95">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg" class="w-5 h-5 sm:w-6 sm:h-6 brightness-0 invert" alt="LINE">
+                ติดต่อฝ่ายบริการ
+            </button>
+            <button onclick="hideAll()" class="w-full bg-slate-100 text-slate-600 font-bold py-3 sm:py-3.5 rounded-xl sm:rounded-2xl hover:bg-slate-200 transition-colors active:scale-95">ปิดหน้าต่าง</button>
+        </div>
+    </div>
+
+    <!-- Modal: Pass / Found Address -->
+    <div id="passOverlay" class="fixed inset-0 bg-navy/60 backdrop-blur-sm hidden items-center justify-center z-[150] p-4">
+        <div class="modal-card animate-scale max-w-md w-full">
+            <div class="modal-header-green"></div>
+            <div class="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 text-3xl sm:text-4xl shadow-inner">✓</div>
+            <h2 class="text-xl sm:text-2xl font-bold text-navy">พบที่อยู่จัดส่ง</h2>
+            <p class="text-[11px] sm:text-xs text-emerald-600 font-medium mt-1">ยืนยันข้อมูลโดย MOM & CHILD MARKETPLACE</p>
+            
+            <div class="text-left bg-gradient-to-br from-pink-50 to-white p-5 sm:p-6 rounded-[20px] sm:rounded-[24px] border border-pink-100 mt-5 relative shadow-sm">
+                <div class="absolute right-3 top-3 sm:right-4 sm:top-4 w-9 h-9 sm:w-10 sm:h-10 bg-white rounded-full flex items-center justify-center shadow-sm cursor-pointer hover:scale-110 transition-transform border border-pink-50 text-lg sm:text-xl z-10" onclick="askUnlock()" title="ดูข้อมูล">
+                    👁️
+                </div>
+                
+                <div class="mb-3 pr-10">
+                    <span class="text-[11px] sm:text-xs text-slate-400 uppercase tracking-wider font-semibold block">ร้านค้า</span>
+                    <span id="pShop" class="text-navy font-bold text-[15px] sm:text-lg break-words"></span>
+                </div>
+                
+                <div class="mb-4 pr-10">
+                    <span class="text-[11px] sm:text-xs text-slate-400 uppercase tracking-wider font-semibold block">ชื่อผู้รับ</span>
+                    <span id="pOwner" class="text-navy font-bold text-[14px] sm:text-md break-words"></span>
+                </div>
+                
+                <div>
+                    <span class="text-[11px] sm:text-xs text-slate-400 uppercase tracking-wider font-semibold block mb-1">ที่อยู่จัดส่ง</span>
+                    <div id="blurSec" class="blur-zone bg-white p-3 sm:p-4 rounded-xl border border-dashed border-pink-300">
+                        <p id="pAddr" class="text-[13px] sm:text-sm text-slate-700 font-medium leading-relaxed break-words"></p>
+                    </div>
+                </div>
+
+                <button id="unlockBtn" onclick="askUnlock()" class="w-full mt-4 py-2.5 sm:py-3 bg-pink-100/80 text-pink-600 rounded-xl text-[12px] sm:text-sm font-bold border border-pink-200 hover:bg-pink-200 active:bg-pink-300 transition-colors flex items-center justify-center gap-2">
+                    🔒 ใส่รหัสเพื่อเปิดดูข้อมูล
+                </button>
+            </div>
+            <button onclick="hideAll()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3.5 sm:py-4 rounded-xl sm:rounded-2xl mt-5 shadow-[0_8px_20px_rgba(16,185,129,0.3)] transition-all active:scale-95">ตกลง, ทราบแล้ว</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD9SnhLqRijMJIsNpStmsPSWrXsiFxn-gs",
+            authDomain: "mombaby-check.firebaseapp.com",
+            projectId: "mombaby-check",
+            storageBucket: "mombaby-check.firebasestorage.app",
+            messagingSenderId: "948432082279",
+            appId: "1:948432082279:web:61b1dfd215c02582f6cbc2",
+            measurementId: "G-MX9SD1GC7P"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        
+        // --- Canvas Animation Background ---
+        const canvas = document.getElementById('water-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        let time = 0;
+        function animateWater() {
+            ctx.clearRect(0, 0, width, height);
+            
+            let gradient = ctx.createLinearGradient(0, 0, 0, height);
+            gradient.addColorStop(0, '#ffffff'); 
+            gradient.addColorStop(1, '#ffe4e8'); 
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, width, height);
+
+            ctx.fillStyle = 'rgba(255, 204, 213, 0.4)';
+            ctx.beginPath();
+            ctx.moveTo(0, height);
+            for (let i = 0; i <= width; i += 10) {
+                let y = height * 0.45 + Math.sin(i * 0.004 + time) * 45 + Math.cos(i * 0.007 + time) * 25;
+                ctx.lineTo(i, y);
+            }
+            ctx.lineTo(width, height);
+            ctx.fill();
+
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+            ctx.beginPath();
+            ctx.moveTo(0, height);
+            for (let i = 0; i <= width; i += 10) {
+                let y = height * 0.65 + Math.sin(i * 0.005 - time * 1.2) * 55 + Math.cos(i * 0.003 - time) * 30;
+                ctx.lineTo(i, y);
+            }
+            ctx.lineTo(width, height);
+            ctx.fill();
+
+            time += 0.012; 
+            requestAnimationFrame(animateWater);
+        }
+        animateWater();
+
+        // --- Functions ---
+        window.showPop = function(id) { document.getElementById(id).classList.replace('hidden', 'flex'); }
+        window.hideAll = function() { 
+            document.querySelectorAll('.fixed').forEach(el => el.classList.replace('flex', 'hidden')); 
+            document.getElementById('blurSec').classList.add('blur-zone');
+            document.getElementById('unlockBtn').classList.remove('hidden');
+        }
+
+        window.askUnlock = function() {
+            setTimeout(() => {
+                const pass = prompt("กรุณากรอกรหัสผ่านธุรกรรม (PIN) เพื่อเปิดดูที่อยู่:");
+                if(pass === "123123123") {
+                    document.getElementById('blurSec').classList.remove('blur-zone');
+                    document.getElementById('unlockBtn').classList.add('hidden');
+                } else if(pass !== null) {
+                    alert("รหัสผ่านไม่ถูกต้อง!");
+                }
+            }, 100);
+        }
+
+        document.getElementById("shopInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                document.getElementById("shopInput").blur();
+                checkShop();
+            }
+        });
+
+        window.checkShop = async function() {
+            const input = document.getElementById('shopInput').value.trim();
+            if(!input) return alert("กรุณากรอกชื่อร้านค้าที่ต้องการค้นหา");
+            
+            document.getElementById('shopInput').blur();
+
+            const btn = document.querySelector('button[onclick="checkShop()"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span class="animate-spin text-xl mr-2">⚙️</span> กำลังค้นหา...';
+            btn.disabled = true;
+
+            try {
+                const q = query(collection(db, "address_mom_baby"), where("Name", "==", input));
+                const querySnapshot = await getDocs(q);
+
+                if (querySnapshot.empty) {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    return window.showPop('notFoundOverlay'); 
+                }
+
+                const shop = querySnapshot.docs[0].data();
+
+                if(shop.Status === 'ผ่าน' || shop.Status === 'ปกติ') {
+                    document.getElementById('pShop').innerText = shop.Name || '-';
+                    document.getElementById('pOwner').innerText = shop.Owner || '-';
+                    document.getElementById('pAddr').innerText = shop.Address || '-';
+                    
+                    window.showPop('passOverlay');
+                } else {
+                    document.getElementById('fShop').innerText = `"${shop.Name || input}"`;
+                    window.showPop('failOverlay'); 
+                }
+
+            } catch (error) {
+                console.error("เกิดข้อผิดพลาด:", error);
+                alert("กรุณาลองใหม่");
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
