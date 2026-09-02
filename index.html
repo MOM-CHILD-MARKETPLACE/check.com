@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <title>MOM&CHILD - ตรวจสอบที่อยู่จัดส่ง</title>
+    <title>LITTLE LUXE CENTER- ตรวจสอบที่อยู่จัดส่ง</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" type="image/png" href="https://i.ibb.co/2YStypZh/image.png">
+    <link rel="icon" type="image/png" href="https://img1.pic.in.th/images/logopk.png">
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { 
             font-family: 'Kanit', sans-serif; 
             margin: 0; 
-            background-color: #fdfbfb;
+            background-color: #FCFAF8; /* สีขาวครีมสว่าง */
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -28,18 +28,18 @@
         
         /* Glassmorphism Card */
         .glass-container {
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 182, 193, 0.4);
+            border: 1px solid rgba(212, 175, 55, 0.25); /* ขอบสีทองอ่อน */
             border-radius: 24px;
-            box-shadow: 0 15px 35px 0 rgba(255, 107, 139, 0.15), 0 5px 15px 0 rgba(26, 32, 68, 0.05);
+            box-shadow: 0 15px 35px 0 rgba(212, 175, 55, 0.08), 0 5px 15px 0 rgba(26, 32, 68, 0.05);
             overflow: hidden;
         }
 
-        /* Header ไล่สีชมพูอ่อน-ขาว */
+        /* Header ไล่สีครีมทอง-ขาว */
         .brand-header {
-            background: linear-gradient(180deg, #fff0f3 0%, rgba(255,255,255,0) 100%);
+            background: linear-gradient(180deg, #FDF8EE 0%, rgba(255,255,255,0) 100%);
         }
 
         .blur-zone { filter: blur(10px); opacity: 0.4; pointer-events: none; user-select: none; }
@@ -56,7 +56,7 @@
             border-radius: 24px; 
             padding: 24px;
             text-align: center; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12); 
             position: relative; 
             -ms-overflow-style: none;  
             scrollbar-width: none;  
@@ -71,14 +71,14 @@
         .close-btn { position: absolute; right: 16px; top: 16px; color: #a0aec0; font-size: 28px; cursor: pointer; border: none; background: none; z-index: 10; transition: color 0.2s; padding: 4px; }
         .close-btn:hover { color: #4a5568; }
         
-        .modal-header-red { background: linear-gradient(90deg, #ff6b8b, #f43f5e); height: 8px; width: 100%; position: absolute; top: 0; left: 0; }
-        .modal-header-green { background: linear-gradient(90deg, #34d399, #10b981); height: 8px; width: 100%; position: absolute; top: 0; left: 0; }
+        .modal-header-red { background: linear-gradient(90deg, #ef4444, #f87171); height: 8px; width: 100%; position: absolute; top: 0; left: 0; }
+        .modal-header-green { background: linear-gradient(90deg, #34d399, #059669); height: 8px; width: 100%; position: absolute; top: 0; left: 0; }
         
-        /* Custom Colors */
-        .text-navy { color: #1a2044; }
-        .text-gold { color: #c89f45; }
-        .bg-pink-gradient { background: linear-gradient(135deg, #ff7eb3 0%, #ff758c 100%); }
-        .bg-pink-gradient:hover, .bg-pink-gradient:active { background: linear-gradient(135deg, #ff758c 0%, #ff6b8b 100%); }
+        /* Custom Colors (หรูหรา โทนแบรนด์) */
+        .text-navy { color: #1A2044; } /* กรมท่าตามโลโก้ */
+        .text-gold { color: #D4AF37; } /* ทองคลาสสิก */
+        .bg-brand-gradient { background: linear-gradient(135deg, #D4AF37 0%, #B58B22 100%); } /* ไล่สีทอง */
+        .bg-brand-gradient:hover, .bg-brand-gradient:active { background: linear-gradient(135deg, #B58B22 0%, #997300 100%); }
     </style>
 </head>
 <body class="min-h-[100dvh] flex flex-col relative">
@@ -86,10 +86,10 @@
     <canvas id="water-canvas"></canvas>
 
     <!-- Navbar -->
-    <nav class="w-full bg-white/70 backdrop-blur-md border-b border-pink-100 p-3 flex justify-between items-center z-[100] px-5 md:px-8 h-[70px] sticky top-0 shadow-sm">
+    <nav class="w-full bg-white/80 backdrop-blur-md border-b border-[#E5D3B3] p-3 flex justify-between items-center z-[100] px-5 md:px-8 h-[70px] sticky top-0 shadow-sm">
         <div class="flex items-center gap-3">
-            <img src="https://i.ibb.co/2YStypZh/image.png" alt="Logo" class="w-auto h-11 object-contain drop-shadow-sm">
-            <span class="text-navy font-bold text-[17px] md:text-xl tracking-wide hidden sm:block">MOM & CHILD MARKETPLACE</span>
+            <img src="https://img1.pic.in.th/images/logopk.png" alt="Logo" class="w-auto h-11 object-contain drop-shadow-sm">
+            <span class="text-navy font-bold text-[17px] md:text-xl tracking-wide hidden sm:block">LITTLE LUXE CENTER</span>
         </div>
     </nav>
 
@@ -100,31 +100,30 @@
                 
                 <!-- Card Header -->
                 <div class="brand-header pt-8 pb-5 px-6 text-center relative">
-                    <!-- ปรับขนาดโลโก้ให้เท่าของเดิม พร้อมใส่กรอบวงกลมสีขาว -->
-                    <div class="mx-auto w-24 h-24 sm:w-28 sm:h-28 bg-white rounded-full shadow-md flex items-center justify-center p-2 mb-4 relative z-10 transition-transform hover:scale-105 duration-500">
-                        <img src="https://i.ibb.co/2YStypZh/image.png" alt="MOM & CHILD MARKETPLACE Logo" class="w-full h-full object-contain">
+                    <div class="mx-auto w-24 h-24 sm:w-28 sm:h-28 bg-white rounded-full shadow-md flex items-center justify-center p-2 mb-4 relative z-10 transition-transform hover:scale-105 duration-500 border border-[#F5EAD4]">
+                        <img src="https://img1.pic.in.th/images/logopk.png" alt="LITTLE LUXE CENTER Logo" class="w-full h-full object-contain">
                     </div>
                     
                     <h1 class="text-xl sm:text-2xl font-bold text-navy drop-shadow-sm relative z-10 leading-tight">ระบบตรวจสอบร้านค้า</h1>
-                    <p class="text-[14px] sm:text-[15px] text-gold font-medium mt-1 relative z-10">MOM & CHILD MARKETPLACE</p>
+                    <p class="text-[14px] sm:text-[15px] text-gold font-medium mt-1 relative z-10 tracking-wide">LITTLE LUXE CENTER</p>
                 </div>
 
                 <!-- Card Body -->
                 <div class="px-6 sm:px-8 pb-10 pt-2">
                     <div class="mb-5">
                         <label class="block text-[13px] sm:text-sm font-semibold text-navy mb-2 ml-1">ชื่อร้านค้า (Shop Name)</label>
-                        <div class="flex items-center bg-white rounded-2xl px-4 py-1.5 shadow-inner border border-pink-100 focus-within:ring-2 focus-within:ring-pink-300 focus-within:border-pink-300 transition-all">
-                            <span class="text-pink-400 mr-2 text-xl">🛍️</span>
+                        <div class="flex items-center bg-white rounded-2xl px-4 py-1.5 shadow-inner border border-[#E5D3B3] focus-within:ring-2 focus-within:ring-[#D4AF37] focus-within:border-[#D4AF37] transition-all">
+                            <span class="text-[#D4AF37] mr-2 text-xl">🛍️</span>
                             <input id="shopInput" type="text" placeholder="พิมพ์ชื่อร้านค้าที่ต้องการค้นหา..." class="w-full bg-transparent py-3 text-[15px] sm:text-[16px] outline-none text-slate-700 placeholder-slate-300">
                         </div>
                     </div>
 
-                    <button onclick="checkShop()" class="w-full bg-pink-gradient text-white font-bold py-4 rounded-2xl shadow-[0_8px_20px_rgba(255,117,140,0.3)] text-[16px] sm:text-[17px] transition-all transform hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2">
+                    <button onclick="checkShop()" class="w-full bg-brand-gradient text-white font-bold py-4 rounded-2xl shadow-[0_8px_20px_rgba(212,175,55,0.3)] text-[16px] sm:text-[17px] transition-all transform hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2">
                         <span>🔍</span> ตรวจสอบที่อยู่จัดส่ง
                     </button>
                     
                     <div class="flex items-center justify-center gap-2 text-[12px] sm:text-[13px] text-slate-400 mt-6 font-medium">
-                        <span class="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse shadow-[0_0_8px_#4ade80]"></span>
+                        <span class="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_8px_#34d399]"></span>
                         เชื่อมต่อฐานข้อมูลเรียลไทม์ 24 ชม.
                     </div>
                 </div>
@@ -134,10 +133,10 @@
     </main>
 
     <!-- Modal: Not Found -->
-    <div id="notFoundOverlay" class="fixed inset-0 bg-navy/50 backdrop-blur-sm hidden items-center justify-center z-[110] p-4">
+    <div id="notFoundOverlay" class="fixed inset-0 bg-[#1A2044]/60 backdrop-blur-sm hidden items-center justify-center z-[110] p-4">
         <div class="modal-card animate-scale">
             <div class="modal-header-red"></div>
-            <div class="w-16 h-16 sm:w-20 sm:h-20 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl sm:text-4xl shadow-inner">🥺</div>
+            <div class="w-16 h-16 sm:w-20 sm:h-20 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl sm:text-4xl shadow-inner border border-rose-100">🥺</div>
             <h3 class="text-xl sm:text-2xl font-bold text-navy mb-2">ไม่พบข้อมูล</h3>
             <p class="text-[14px] sm:text-md text-slate-500 leading-relaxed mb-6 sm:mb-8">ขออภัย ไม่พบชื่อร้านค้านี้ในระบบ<br>กรุณาตรวจสอบการสะกดและลองใหม่อีกครั้ง</p>
             <button onclick="hideAll()" class="w-full bg-slate-100 text-slate-700 font-bold py-3.5 sm:py-4 rounded-2xl hover:bg-slate-200 transition-colors active:scale-95">ลองใหม่อีกครั้ง</button>
@@ -145,14 +144,14 @@
     </div>
 
     <!-- Modal: Fail / Not Verified -->
-    <div id="failOverlay" class="fixed inset-0 bg-navy/60 backdrop-blur-sm hidden items-center justify-center z-[150] p-4">
+    <div id="failOverlay" class="fixed inset-0 bg-[#1A2044]/70 backdrop-blur-sm hidden items-center justify-center z-[150] p-4">
         <div class="modal-card animate-scale">
             <div class="modal-header-red"></div>
             <button onclick="hideAll()" class="close-btn">&times;</button>
-            <div class="w-16 h-16 sm:w-20 sm:h-20 bg-rose-50 text-rose-400 rounded-full flex justify-center items-center mx-auto mb-4 text-3xl sm:text-4xl font-bold shadow-inner">!</div>
+            <div class="w-16 h-16 sm:w-20 sm:h-20 bg-rose-50 text-rose-500 rounded-full flex justify-center items-center mx-auto mb-4 text-3xl sm:text-4xl font-bold shadow-inner border border-rose-100">!</div>
             <h2 class="text-xl sm:text-2xl font-bold text-navy mb-2">สถานะ: ยังไม่ยืนยัน</h2>
             <p class="text-[13px] sm:text-sm text-slate-500 mb-6 leading-relaxed">
-                ร้านค้า <span id="fShop" class="font-bold text-pink-500 text-[15px] sm:text-base break-words"></span><br>
+                ร้านค้า <span id="fShop" class="font-bold text-rose-500 text-[15px] sm:text-base break-words"></span><br>
                 <span class="font-semibold text-slate-700">"ยังไม่ได้ทำการยืนยันบัญชี"</span><br>
                 <span class="text-[12px] sm:text-[13px] text-slate-400 mt-1 block">กรุณาติดต่อผู้ดูแลระบบเพื่อดำเนินการยืนยัน</span>
             </p>
@@ -165,15 +164,15 @@
     </div>
 
     <!-- Modal: Pass / Found Address -->
-    <div id="passOverlay" class="fixed inset-0 bg-navy/60 backdrop-blur-sm hidden items-center justify-center z-[150] p-4">
+    <div id="passOverlay" class="fixed inset-0 bg-[#1A2044]/70 backdrop-blur-sm hidden items-center justify-center z-[150] p-4">
         <div class="modal-card animate-scale max-w-md w-full">
             <div class="modal-header-green"></div>
-            <div class="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 text-3xl sm:text-4xl shadow-inner">✓</div>
+            <div class="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 text-3xl sm:text-4xl shadow-inner border border-emerald-100">✓</div>
             <h2 class="text-xl sm:text-2xl font-bold text-navy">พบที่อยู่จัดส่ง</h2>
-            <p class="text-[11px] sm:text-xs text-emerald-600 font-medium mt-1">ยืนยันข้อมูลโดย MOM & CHILD MARKETPLACE</p>
+            <p class="text-[11px] sm:text-xs text-emerald-600 font-medium mt-1">ยืนยันข้อมูลโดย LITTLE LUXE CENTER</p>
             
-            <div class="text-left bg-gradient-to-br from-pink-50 to-white p-5 sm:p-6 rounded-[20px] sm:rounded-[24px] border border-pink-100 mt-5 relative shadow-sm">
-                <div class="absolute right-3 top-3 sm:right-4 sm:top-4 w-9 h-9 sm:w-10 sm:h-10 bg-white rounded-full flex items-center justify-center shadow-sm cursor-pointer hover:scale-110 transition-transform border border-pink-50 text-lg sm:text-xl z-10" onclick="askUnlock()" title="ดูข้อมูล">
+            <div class="text-left bg-gradient-to-br from-[#FDF8EE] to-white p-5 sm:p-6 rounded-[20px] sm:rounded-[24px] border border-[#E5D3B3] mt-5 relative shadow-sm">
+                <div class="absolute right-3 top-3 sm:right-4 sm:top-4 w-9 h-9 sm:w-10 sm:h-10 bg-white rounded-full flex items-center justify-center shadow-sm cursor-pointer hover:scale-110 transition-transform border border-[#F5EAD4] text-lg sm:text-xl z-10" onclick="askUnlock()" title="ดูข้อมูล">
                     👁️
                 </div>
                 
@@ -189,16 +188,16 @@
                 
                 <div>
                     <span class="text-[11px] sm:text-xs text-slate-400 uppercase tracking-wider font-semibold block mb-1">ที่อยู่จัดส่ง</span>
-                    <div id="blurSec" class="blur-zone bg-white p-3 sm:p-4 rounded-xl border border-dashed border-pink-300">
+                    <div id="blurSec" class="blur-zone bg-white p-3 sm:p-4 rounded-xl border border-dashed border-[#D4AF37]">
                         <p id="pAddr" class="text-[13px] sm:text-sm text-slate-700 font-medium leading-relaxed break-words"></p>
                     </div>
                 </div>
 
-                <button id="unlockBtn" onclick="askUnlock()" class="w-full mt-4 py-2.5 sm:py-3 bg-pink-100/80 text-pink-600 rounded-xl text-[12px] sm:text-sm font-bold border border-pink-200 hover:bg-pink-200 active:bg-pink-300 transition-colors flex items-center justify-center gap-2">
+                <button id="unlockBtn" onclick="askUnlock()" class="w-full mt-4 py-2.5 sm:py-3 bg-[#FDF8EE] text-[#B58B22] rounded-xl text-[12px] sm:text-sm font-bold border border-[#E5D3B3] hover:bg-[#F5EAD4] active:bg-[#EADDBC] transition-colors flex items-center justify-center gap-2">
                     🔒 ใส่รหัสเพื่อเปิดดูข้อมูล
                 </button>
             </div>
-            <button onclick="hideAll()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3.5 sm:py-4 rounded-xl sm:rounded-2xl mt-5 shadow-[0_8px_20px_rgba(16,185,129,0.3)] transition-all active:scale-95">ตกลง, ทราบแล้ว</button>
+            <button onclick="hideAll()" class="w-full bg-[#059669] hover:bg-[#047857] text-white font-bold py-3.5 sm:py-4 rounded-xl sm:rounded-2xl mt-5 shadow-[0_8px_20px_rgba(5,150,105,0.3)] transition-all active:scale-95">ตกลง, ทราบแล้ว</button>
         </div>
     </div>
 
@@ -237,11 +236,11 @@
             
             let gradient = ctx.createLinearGradient(0, 0, 0, height);
             gradient.addColorStop(0, '#ffffff'); 
-            gradient.addColorStop(1, '#ffe4e8'); 
+            gradient.addColorStop(1, '#FDF8EE'); 
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, width, height);
 
-            ctx.fillStyle = 'rgba(255, 204, 213, 0.4)';
+            ctx.fillStyle = 'rgba(212, 175, 55, 0.12)'; // สีทองอ่อน คลื่นลูกแรก
             ctx.beginPath();
             ctx.moveTo(0, height);
             for (let i = 0; i <= width; i += 10) {
@@ -251,7 +250,7 @@
             ctx.lineTo(width, height);
             ctx.fill();
 
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+            ctx.fillStyle = 'rgba(181, 139, 34, 0.08)'; // สีทองเข้มขึ้น คลื่นลูกสอง
             ctx.beginPath();
             ctx.moveTo(0, height);
             for (let i = 0; i <= width; i += 10) {
